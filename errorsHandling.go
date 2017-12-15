@@ -7,7 +7,20 @@ import (
 
 type GtaResponseError interface {
 	Error() 	string
-	RawError()	string
+	RawError()	[]byte
+}
+
+type GteRespError struct {
+	Message	string
+	Raw		[]byte
+}
+
+func (re *GteRespError) Error() string {
+	return re.Message
+}
+
+func (re *GteRespError) RawError() []byte {
+	return re.Raw
 }
 
 func FatalError(err error) {
