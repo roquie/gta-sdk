@@ -2,25 +2,15 @@ package gta_sdk
 
 import (
 	"log"
-	"encoding/xml"
 )
 
-type GtaResponseError interface {
-	Error() 	string
-	RawError()	[]byte
-}
-
-type GteRespError struct {
+type GtaResponseError struct {
+	ErrorId	string
 	Message	string
-	Raw		[]byte
 }
 
-func (re *GteRespError) Error() string {
+func (re *GtaResponseError) Error() string {
 	return re.Message
-}
-
-func (re *GteRespError) RawError() []byte {
-	return re.Raw
 }
 
 func FatalError(err error) {
@@ -29,12 +19,16 @@ func FatalError(err error) {
 	}
 }
 
-func ErrorResponse(bd []byte) (GtaResponseError, error) {
-	var v GtaResponseError
-	err := xml.Unmarshal(bd, v)
-	if err != nil {
-		log.Println(err)
-		return nil, err
+func ErrorResponse(gtaErrors *Errors) *[]GtaResponseError {
+	if gtaErrors == nil || len(gtaErrors.Errors) == 0 {
+		res := make([]GtaResponseError, 1)
+		res[0].Message = "Undefined error"
+		return &res
 	}
-	return v, nil
+	res := make([]GtaResponseError, len(gtaErrors.Errors))
+	for i, item := range gtaErrors.Errors {
+		res[i].Message = item.ErrorText
+		res[i].ErrorId = item.ErrorId
+	}
+	return &res
 }
