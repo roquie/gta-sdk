@@ -1,5 +1,6 @@
 package gta_sdk
 
+import "time"
 
 type RequestMode string
 
@@ -65,4 +66,73 @@ type Request struct {
 type RequestDetails struct {
 	RequestItems interface{}
 }
+
+// Search Hotel Price
+type SearchHotelPriceRequest struct {
+	ItemDestination				ItemDestination			`xml:"ItemDestination"`
+	ItemCodes					ItemCodes				`xml:"ItemCodes,omitempty"`
+	ImmediateConfirmationOnly	bool					`xml:"ImmediateConfirmationOnly"`
+	PeriodOfStay				PeriodOfStay			`xml:"PeriodOfStay"`
+	IncludeRecommended			bool					`xml:"IncludeRecommended"`
+	IncludePriceBreakdown		bool					`xml:"IncludePriceBreakdown"`
+	IncludeChargeableItems		bool					`xml:"IncludeChargeableItems"`
+	ExcludeChargeableItems		ExcludeChargeableItems	`xml:"ExcludeChargeableItems"`
+	StarRating					StarRating				`xml:"MinimumRating"`
+	LocationCode				string					`xml:"LocationCode"`
+	FacilityCodes				[]FacilityCodes			`xml:"FacilityCodes"`
+	OrderBy						string					`xml:"OrderBy"`
+	NumberOfReturnedItems		int						`xml:"NumberOfReturnedItems"`
+}
+
+type FacilityCodes struct {
+	FacilityCode	string	`xml:"FacilityCode"`
+}
+
+type StarRating struct {
+	MinimumRating	bool	`xml:"MinimumRating,attr"`
+}
+
+type Rooms struct {
+	Rooms	[]Room	`xml:"Rooms"`
+}
+
+type Room struct {
+	Code			string		`xml:"Code,attr"`
+	NumberOfRooms	int			`xml:"NumberOfRooms,attr,omitempty"`
+	ExtraBeds		ExtraBeds	`xml:"ExtraBeds"`
+}
+
+type ExtraBeds struct {
+	Age	int	`xml:"Age"`
+}
+
+type ExcludeChargeableItems struct {
+	CancellationDeadlineHours	int	`xml:"CancellationDeadlineHours"`
+}
+
+type PeriodOfStay struct {
+	CheckInDate	time.Time	`xml:"CheckInDate"`
+	Duration	int			`xml:"Duration"`
+}
+
+type ItemCodes struct {
+	ItemCodes	[]ItemCode	`xml:"ItemCodes"`
+}
+
+type ItemCode struct {
+	ItemCode	string	`xml:"ItemCode"`
+}
+
+type ItemDestination struct {
+	DestinationType	string	`xml:"DestinationType,attr"`
+	DestinationCode	string	`xml:"DestinationCode,attr,omitempty"`
+	Latitude		string	`xml:"Latitude,omitempty"`
+	Longitude		string	`xml:"Longitude,omitempty"`
+	RadiusKm		string	`xml:"RadiusKm,omitempty"`
+	WestLongitude	string	`xml:"WestLongitude,omitempty"`
+	SouthLatitude	string	`xml:"SouthLatitude,omitempty"`
+	EastLongitude	string	`xml:"EastLongitude,omitempty"`
+	NorthLatitude	string	`xml:"NorthLatitude,omitempty"`
+}
+
 // Requests

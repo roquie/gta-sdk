@@ -29,6 +29,13 @@ func getTestData(fName string) ([]byte, error) {
 	return data, nil
 }
 
+func getRequestHeaders() *Request {
+	src := &Request{}
+	src.Source.RequestorID = RequestorID{Client:"Test client", EMailAddress:"test@email.com", Password:"test pass"}
+	src.Source.RequestorPreferences = RequestorPreferences{Country:"Russia", Currency:"RUB", Language:"RU-ru", RequestMode:SYNCHRONOUS, ResponseURL:""}
+	return src
+}
+
 func TestResponseStruct(t *testing.T) {
 	resp := &Response{}
 	resp.ResponseSequence = "1"
@@ -48,10 +55,7 @@ func TestResponseStruct(t *testing.T) {
 }
 
 func TestRequestStruct(t *testing.T) {
-	src := &Request{}
-	src.Source.RequestorID = RequestorID{Client:"Test client", EMailAddress:"test@email.com", Password:"test pass"}
-	src.Source.RequestorPreferences = RequestorPreferences{Country:"Russia", Currency:"RUB", Language:"RU-ru", RequestMode:SYNCHRONOUS, ResponseURL:""}
-
+	src := getRequestHeaders()
 	buf := serializeRequest(&src.Source, &src.RequestDetails)
 
 	eData, err := getTestData("request.xml")
@@ -64,4 +68,13 @@ func TestRequestStruct(t *testing.T) {
 		t.Fatal("Error serialize request")
 	}
 	t.Log("TestRequestStruct: Ok")
+}
+
+func TestSearchHotelPriceRequest(t *testing.T) {
+	src := &RequestDetails{}
+	rh := getRequestHeaders()
+	rh.RequestDetails = *src
+	buf := serializeRequest(&rh.Source, &rh.RequestDetails)
+
+	t.Log(string(buf.Bytes()))
 }
