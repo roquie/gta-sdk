@@ -1,4 +1,4 @@
-package gta_sdk
+package test
 
 import (
 	"bufio"
@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/tmconsulting/gta-golang-sdk"
 )
 
 func crlfBuf(src []byte) string {
@@ -21,7 +23,7 @@ func crlfBuf(src []byte) string {
 
 func getTestData(fName string) ([]byte, error) {
 	cwd, _ := os.Getwd()
-	fullFileName := filepath.Join(cwd, "test_data", fName)
+	fullFileName := filepath.Join(cwd, "data", fName)
 	data, err := ioutil.ReadFile(fullFileName)
 	if err != nil {
 		return nil, err
@@ -29,15 +31,15 @@ func getTestData(fName string) ([]byte, error) {
 	return data, nil
 }
 
-func getRequestHeaders() *Request {
-	src := &Request{}
-	src.Source.RequestorID = RequestorID{Client:"Test client", EMailAddress:"test@email.com", Password:"test pass"}
-	src.Source.RequestorPreferences = RequestorPreferences{Country:"Russia", Currency:"RUB", Language:"RU-ru", RequestMode:SYNCHRONOUS, ResponseURL:""}
+func getRequestHeaders() *gta_sdk.Request {
+	src := &gta_sdk.Request{}
+	src.Source.RequestorID = gta_sdk.RequestorID{Client:"Test client", EMailAddress:"test@email.com", Password:"test pass"}
+	src.Source.RequestorPreferences = gta_sdk.RequestorPreferences{Country:"Russia", Currency:"RUB", Language:"RU-ru", RequestMode:gta_sdk.SYNCHRONOUS, ResponseURL:""}
 	return src
 }
 
 func TestResponseStruct(t *testing.T) {
-	resp := &Response{}
+	resp := &gta_sdk.Response{}
 	resp.ResponseSequence = "1"
 	resp.ResponseReference = "123456"
 	resp.ResponseDetails.Language = "RU-ru"
@@ -56,7 +58,7 @@ func TestResponseStruct(t *testing.T) {
 
 func TestRequestStruct(t *testing.T) {
 	src := getRequestHeaders()
-	buf := serializeRequest(&src.Source, &src.RequestDetails)
+	buf := gta_sdk.SerializeRequest(&src.Source, &src.RequestDetails)
 
 	eData, err := getTestData("request.xml")
 	if err != nil {
@@ -71,10 +73,10 @@ func TestRequestStruct(t *testing.T) {
 }
 
 func TestSearchHotelPriceRequest(t *testing.T) {
-	src := &RequestDetails{}
+	src := &gta_sdk.RequestDetails{}
 	rh := getRequestHeaders()
 	rh.RequestDetails = *src
-	buf := serializeRequest(&rh.Source, &rh.RequestDetails)
+	buf := gta_sdk.SerializeRequest(&rh.Source, &rh.RequestDetails)
 
 	t.Log(string(buf.Bytes()))
 }

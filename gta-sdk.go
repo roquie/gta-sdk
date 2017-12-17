@@ -9,7 +9,7 @@ import (
 
 const gtaApiUrl = ""
 
-func serializeRequest(reqAuth *Source, reqDetails *RequestDetails) *bytes.Buffer {
+func SerializeRequest(reqAuth *Source, reqDetails *RequestDetails) *bytes.Buffer {
 	res := 	&Request{Source:*reqAuth, RequestDetails:*reqDetails}
 	bItem, err := xml.Marshal(res)
 	FatalError(err)
@@ -17,7 +17,7 @@ func serializeRequest(reqAuth *Source, reqDetails *RequestDetails) *bytes.Buffer
 	return bytes.NewBuffer([]byte(data))
 }
 
-func deSerializeResponse(data []byte) *Response {
+func DeSerializeResponse(data []byte) *Response {
 	res := &Response{}
 	err := xml.Unmarshal(data, res)
 	FatalError(err)
@@ -25,7 +25,7 @@ func deSerializeResponse(data []byte) *Response {
 }
 
 func gtaRequestInternal(reqAuth *Source, reqDetails *RequestDetails) (*Response, *[]GtaResponseError) {
-	data := serializeRequest(reqAuth, reqDetails)
+	data := SerializeRequest(reqAuth, reqDetails)
 
 	req, err := http.NewRequest("POST", gtaApiUrl, data)
 	FatalError(err)
@@ -38,7 +38,7 @@ func gtaRequestInternal(reqAuth *Source, reqDetails *RequestDetails) (*Response,
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
-	respDetails := deSerializeResponse(body)
+	respDetails := DeSerializeResponse(body)
 	if respDetails.ResponseDetails.Errors != nil {
 		return nil, ErrorResponse(respDetails.ResponseDetails.Errors)
 	}
