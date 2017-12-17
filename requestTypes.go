@@ -206,12 +206,17 @@ type HotelRoomPrice struct {
 }
 
 type RoomPrice struct {
-	Gross		string	`xml:"Gross,attr"`
-	PriceRanges	string	`xml:"PriceRanges"`
+	Gross		string			`xml:"Gross,attr"`
+	PriceRanges	[]PriceRange	`xml:"PriceRanges"`
 }
 
 type PriceRange struct {
-	DateRange	string	`xml:"DateRange"`
+	DateRange	DataRange	`xml:"DateRange"`
+}
+
+type DataRange struct {
+	FromDate	time.Time	`xml:"FromDate"`
+	ToDate		time.Time	`xml:"ToDate"`
 }
 
 type Meals struct {
