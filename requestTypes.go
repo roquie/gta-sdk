@@ -1,7 +1,6 @@
 package gta_sdk
 
 import (
-	"encoding/xml"
 	"time"
 )
 
@@ -19,7 +18,6 @@ const (
 )
 
 type OrderByPriceEnum string
-
 const (
 	PRICELOWTOHIGH = "pricelowtohigh"
 	PRICEHIGHTOLOW = "pricehightolow"
@@ -57,7 +55,6 @@ type Error struct {
 }
 
 type Response struct {
-	XMLName				xml.Name		`xml:"Response"`
 	ResponseReference	string			`xml:"ResponseReference,attr"`
 	ResponseSequence	string			`xml:"ResponseSequence,attr,omitempty"`
 	ResponseDetails		ResponseDetails	`xml:"ResponseDetails"`
@@ -72,7 +69,6 @@ type ResponseDetails struct {
 
 // Common Requests
 type Request struct {
-	XMLName			xml.Name		`xml:"Request"`
 	Source			Source			`xml:"Source"`
 	RequestDetails	RequestDetails	`xml:"RequestDetails"`
 }
@@ -84,7 +80,6 @@ type RequestDetails struct {
 
 //  Request Search Hotel Price
 type SearchHotelPriceRequest struct {
-	XMLName   					xml.Name 				`xml:"SearchHotelPriceRequest"`
 	ItemDestination				ItemDestination			`xml:"ItemDestination"`
 	ImmediateConfirmationOnly	bool					`xml:"ImmediateConfirmationOnly,omitempty"`
 	ItemName					string					`xml:"ItemName,omitempty"`
@@ -94,8 +89,8 @@ type SearchHotelPriceRequest struct {
 	IncludeRecommended			bool					`xml:"IncludeRecommended"`
 	RecommendedOnly				bool					`xml:"RecommendedOnly,omitempty"`
 	IncludePriceBreakdown		bool					`xml:"IncludePriceBreakdown"`
-	IncludeChargeConditions		IncludeChargeConditions	`xml:"IncludeChargeConditions,omitempty"`
-	IncludeChargeableItems		bool					`xml:"IncludeChargeableItems"`
+	IncludeChargeConditions		bool					`xml:"IncludeChargeConditions,omitempty"`
+	IncludeChargeableItems		IncludeChargeConditions	`xml:"IncludeChargeableItems"`
 	ExcludeChargeableItems		ExcludeChargeableItems	`xml:"ExcludeChargeableItems"`
 	Rooms						[]Room					`xml:"Rooms"`
 	StarRating					StarRating				`xml:"MinimumRating,omitempty"`
@@ -121,6 +116,7 @@ type FacilityCodes struct {
 
 type StarRating struct {
 	MinimumRating	bool	`xml:"MinimumRating,attr"`
+	Value			int		`xml:",chardata"`
 }
 
 type Room struct {
@@ -165,111 +161,3 @@ type ItemDestination struct {
 	NorthLatitude	string				`xml:"NorthLatitude,omitempty"`
 }
 // End  Request Search Hotel Price
-
-// Response Search Hotel Price
-type SearchHotelPriceResponse struct {
-	HotelDetails	HotelDetails	`xml:"HotelDetails"`
-}
-
-type HotelDetails struct {
-	Hotel	[]Hotel	`xml:"Hotel"`
-}
-
-type Hotel struct {
-	HasExtraInfo	bool			`xml:"HasExtraInfo,attr"`
-	HasMap			bool			`xml:"HasMap,attr"`
-	HasPictures		bool			`xml:"HasPictures,attr"`
-	Recommended		bool			`xml:"Recommended,attr,omitempty"`
-	City			City			`xml:"City,cdata"`
-	Item			Item			`xml:"Item,cdata"`
-	LocationDetails	LocationDetails	`xml:"LocationDetails,cdata"`
-	StarRating		int				`xml:"StarRating"`
-	HotelRooms		[]HotelRoom		`xml:"HotelRooms"`
-	RoomCategories	[]RoomCategory	`xml:"RoomCategories"`
-}
-
-type RoomCategory struct {
-	XMLName			xml.Name			`xml:"RoomCategory"`
-	Id				string				`xml:"Id,attr"`
-	Description		string				`xml:"Description,cdata"`
-	ItemPrice		ItemPrice			`xml:"ItemPrice"`
-	Confirmation	Confirmation		`xml:"Confirmation,cdata"`
-	SharingBedding	bool				`xml:"SharingBedding"`
-	Meals			Meals				`xml:"Meals"`
-	HotelRoomPrices	[]HotelRoomPrice	`xml:"HotelRoomPrices"`
-}
-
-type HotelRoomPrice struct {
-	XMLName		xml.Name	`xml:"HotelRoom"`
-	Code		string		`xml:"Code,attr"`
-	RoomPrice	RoomPrice	`xml:"RoomPrice"`
-}
-
-type RoomPrice struct {
-	Gross		string			`xml:"Gross,attr"`
-	PriceRanges	[]PriceRange	`xml:"PriceRanges"`
-}
-
-type PriceRange struct {
-	DateRange	DataRange	`xml:"DateRange"`
-}
-
-type DataRange struct {
-	FromDate	time.Time	`xml:"FromDate"`
-	ToDate		time.Time	`xml:"ToDate"`
-}
-
-type Meals struct {
-	Basis		Basis		`xml:"Basis,cdata"`
-	Breakfast	Breakfast	`xml:"Breakfast,cdata"`
-}
-
-type Breakfast struct {
-	Code	string	`xml:"Code,attr"`
-}
-
-type Basis struct {
-	Code	string	`xml:"Code,attr"`
-}
-
-type Confirmation struct {
-	Code	string	`xml:"Code,attr"`
-}
-
-type ItemPrice struct {
-	Currency				string	`xml:"Currency,attr"`
-	CommissionIndicator		string	`xml:"CommissionIndicator,attr"`
-	CommissionPercentage	string	`xml:"CommissionPercentage,attr"`
-	NoOfferDiscount			bool	`xml:"NoOfferDiscount,attr,omitempty"`
-	IncludedOfferDiscount	bool	`xml:"IncludedOfferDiscount,attr,omitempty"`
-	Rsp						float64	`xml:"RSP,attr,omitempty"`
-}
-
-type HotelRoom struct {
-	XMLName				xml.Name	`xml:"HotelRoom"`
-	Code				string		`xml:"Code,attr"`
-	Id					string		`xml:"Id,attr,omitempty"`
-	ExtraBed			bool		`xml:"ExtraBed,attr,omitempty"`
-	NumberOfCots		string		`xml:"NumberOfCots,attr,omitempty"`
-	NumberOfExtraBeds	string		`xml:"NumberOfExtraBeds,attr,omitempty"`
-	NumberOfRooms		string		`xml:"NumberOfRooms,attr"`
-	SharingBedding		bool		`xml:"SharingBedding,attr,omitempty"`
-}
-
-type LocationDetails struct {
-	Location	Location	`xml:"Location"`
-}
-
-type Location struct {
-	Code	string	`xml:"Code,attr"`
-}
-
-type Item struct {
-	Code	string	`xml:"Code,attr"`
-}
-
-type City struct {
-	Code	string	`xml:"Code,attr"`
-}
-
-// End Response Search Hotel Price

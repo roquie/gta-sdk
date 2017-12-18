@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Request><Source><RequestorID Client="Test client" EMailAddress="test@email.com" Password="test pass"></RequestorID><RequestorPreferences Language="RU-ru" Currency="RUB" Country="Russia"><RequestMode>SYNCHRONOUS</RequestMode></RequestorPreferences></Source><RequestDetails></RequestDetails></Request>
+<Request>
+    <Source>
+        <RequestorID Client="1479" EMailAddress="client@net.com" Password="xxx"></RequestorID>
+        <RequestorPreferences Language="en" Currency="GBP" Country="GB">
+            <RequestMode>SYNCHRONOUS</RequestMode>
+        </RequestorPreferences>
+    </Source>
+    <RequestDetails></RequestDetails>
+</Request>

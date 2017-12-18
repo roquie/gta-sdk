@@ -1,1 +1,3 @@
-<Response ResponseReference="123456" ResponseSequence="1"><ResponseDetails Language="RU-ru"></ResponseDetails></Response>
+<Response ResponseReference="123456" ResponseSequence="1">
+    <ResponseDetails Language="RU-ru"></ResponseDetails>
+</Response>
