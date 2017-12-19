@@ -1,37 +1,35 @@
-<RequestDetails>
-    <SearchHotelPriceRequest>
-        <ItemDestination DestinationType="city" DestinationCode="AMS" />
-        <ImmediateConfirmationOnly />
-        <PeriodOfStay>
-            <CheckInDate>2017-09-30</CheckInDate>
-            <Duration>4</Duration>
-        </PeriodOfStay>
-        <IncludeRecommended />
-        <IncludePriceBreakdown />
-        <IncludeChargeConditions />
-        <ExcludeChargeableItems>
-            <CancellationDeadlineHours>72</CancellationDeadlineHours>
-        </ExcludeChargeableItems>
-        <Rooms>
-            <Room Code="DB" NumberOfRooms="1">
-                <ExtraBeds>
-                    <Age>5</Age>
-                </ExtraBeds>
-            </Room>
-            <Room Code="TB" NumberOfCots="2">
-                <ExtraBeds>
-                    <Age>10</Age>
-                </ExtraBeds>
-            </Room>
-            <Room Code="SB" />
-        </Rooms>
-        <StarRating MinimumRating="true">3</StarRating>
-        <LocationCode>G1</LocationCode>
-        <FacilityCodes>
-            <FacilityCode>*AC</FacilityCode>
-            <FacilityCode>*LS</FacilityCode>
-        </FacilityCodes>
-        <OrderBy>pricelowtohigh</OrderBy>
-        <NumberOfReturnedItems>10</NumberOfReturnedItems>
-    </SearchHotelPriceRequest>
-</RequestDetails>
+<SearchHotelPriceRequest>
+    <ItemDestination DestinationType="city" DestinationCode="AMS" />
+    <ImmediateConfirmationOnly />
+    <PeriodOfStay>
+        <CheckInDate>2017-09-30</CheckInDate>
+        <Duration>4</Duration>
+    </PeriodOfStay>
+    <IncludeRecommended />
+    <IncludePriceBreakdown />
+    <IncludeChargeConditions />
+    <ExcludeChargeableItems>
+        <CancellationDeadlineHours>72</CancellationDeadlineHours>
+    </ExcludeChargeableItems>
+    <Rooms>
+        <Room Code="DB" NumberOfRooms="1">
+            <ExtraBeds>
+                <Age>5</Age>
+            </ExtraBeds>
+        </Room>
+        <Room Code="TB" NumberOfCots="2">
+            <ExtraBeds>
+                <Age>10</Age>
+            </ExtraBeds>
+        </Room>
+        <Room Code="SB" />
+    </Rooms>
+    <StarRating MinimumRating="true">3</StarRating>
+    <LocationCode>G1</LocationCode>
+    <FacilityCodes>
+        <FacilityCode>*AC</FacilityCode>
+        <FacilityCode>*LS</FacilityCode>
+    </FacilityCodes>
+    <OrderBy>pricelowtohigh</OrderBy>
+    <NumberOfReturnedItems>10</NumberOfReturnedItems>
+</SearchHotelPriceRequest>

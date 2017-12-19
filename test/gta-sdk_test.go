@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/tmconsulting/gta-golang-sdk"
-	"time"
 )
 
 func getTestData(fName string) ([]byte, error) {
@@ -89,37 +88,37 @@ func TestRequestStruct(t *testing.T) {
 func TestSearchHotelPriceRequest(t *testing.T) {
 	src := &gta_sdk.SearchHotelPriceRequest{}
 	rh := getRequestHeaders()
-	rh.RequestDetails.RequestItems = *src
 
 	src.ItemDestination.DestinationType = gta_sdk.CITY
 	src.ItemDestination.DestinationCode = "AMS"
-	src.ImmediateConfirmationOnly = true
-	date := time.Time{}
-	src.PeriodOfStay.CheckInDate = date.AddDate(2017,9, 30)
+	src.ImmediateConfirmationOnly.Value = true
+	src.PeriodOfStay.CheckInDate = "2017-09-30"
 	src.PeriodOfStay.Duration = 4
-	src.IncludeRecommended = true
-	src.IncludePriceBreakdown = true
-	src.IncludeChargeConditions = true
+	src.IncludeRecommended.Value = true
+	src.IncludePriceBreakdown.Value = true
+	src.IncludeChargeConditions.Value = true
 	src.ExcludeChargeableItems.CancellationDeadlineHours = 72
-	src.Rooms = make([]gta_sdk.Room, 3)
-	src.Rooms[0].Code = "DB"
-	src.Rooms[0].NumberOfRooms = "1"
-	src.Rooms[0].ExtraBeds.Age = 5
-	src.Rooms[1].Code = "TB"
-	src.Rooms[1].NumberOfRooms = "2"
-	src.Rooms[1].ExtraBeds.Age = 10
-	src.Rooms[2].Code = "SB"
+	src.Rooms.Rooms = make([]gta_sdk.Room, 3)
+	src.Rooms.Rooms[0].Code = "DB"
+	src.Rooms.Rooms[0].NumberOfRooms = "1"
+	src.Rooms.Rooms[0].ExtraBeds.Age = 5
+	src.Rooms.Rooms[1].Code = "TB"
+	src.Rooms.Rooms[1].NumberOfRooms = "2"
+	src.Rooms.Rooms[1].ExtraBeds.Age = 10
+	src.Rooms.Rooms[2].Code = "SB"
 	src.StarRating.MinimumRating = true
 	src.StarRating.Value = 3
 	src.LocationCode = "G1"
-	src.FacilityCodes = make([]gta_sdk.FacilityCodes, 2)
-	src.FacilityCodes[0].FacilityCode = "*AC"
-	src.FacilityCodes[1].FacilityCode = "*LS"
+	src.FacilityCodes.FacilityCodes = make([]string, 2)
+	src.FacilityCodes.FacilityCodes[0] = "*AC"
+	src.FacilityCodes.FacilityCodes[1] = "*LS"
 	src.OrderBy = gta_sdk.PRICELOWTOHIGH
 	src.NumberOfReturnedItems = 10
 
-	buf := gta_sdk.SerializeRequest(&rh.Source, &rh.RequestDetails)
+	rh.RequestDetails.RequestItems = *src
 
+	buf := gta_sdk.SerializeRequest(&rh.Source, &rh.RequestDetails)
+	t.Log(string(buf.Bytes()))
 	mokBytes, err := getTestData("HotelPriceSearchRequestAtCityLevel.xml")
 	if err != nil {
 		t.Error(err)
@@ -136,14 +135,25 @@ func TestSearchHotelPriceRequest(t *testing.T) {
 		t.Error(err)
 	}
 
-	/*
-	if rh.RequestDetails.RequestItems != testObject {
-		t.Fatal("Error serialize request")
-	}
-	*/
+//	if rh.RequestDetails.RequestItems != testObject {
+//		t.Fatal("Error serialize request")
+//	}
 
 	t.Log("TestRequestStruct: Ok")
 
 
 //	t.Log(string(buf.Bytes()))
+}
+
+func TestCustomMarshall(t *testing.T) {
+	//item := &gta_sdk.TestBoolTag{}
+	//item.Name = "Test entity"
+	//item.IncludeChargeConditions.Value = false
+	//
+	//buf, err := xml.Marshal(item)
+	//if err != nil {
+	//	t.Error(err)
+	//}
+	//t.Log(string(buf))
+	t.Log("TestCustomMarshall: Ok")
 }
